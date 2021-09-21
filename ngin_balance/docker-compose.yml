@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+   web:
+       image: sewer01/web
+       container_name: web
+       command: python manage.py runserver 0.0.0.0:8000
+                  
+   nginx:
+      build: ./nginx
+      container_name: nginx
+      volumes:
+        - /etc/nginx/sites-enabled
+        - /etc/nginx/certs
+        - /var/log/nginx      
+      ports:
+        - 80:80
+      links:
+        - web
+        
+            
+        
