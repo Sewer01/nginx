@@ -4,6 +4,16 @@ services:
        image: sewer01/web
        container_name: web
        command: python manage.py runserver 0.0.0.0:8000
+       
+   web1:
+       image: sewer01/web1
+       container_name: web1
+       command: python manage.py runserver 0.0.0.0:8000
+       
+   web2:
+       image: sewer01/web2
+       container_name: web2
+       command: python manage.py runserver 0.0.0.0:8000
                   
    nginx:
       build: ./nginx
@@ -16,6 +26,5 @@ services:
         - 80:80
       links:
         - web
-        
-            
-        
+        - web1
+        - web2
