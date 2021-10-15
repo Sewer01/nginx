@@ -1,20 +1,36 @@
-version: '3.3'
+version: '2.4'
 services:
    web:
        image: sewer01/web
        container_name: web
        command: python manage.py runserver 0.0.0.0:8000
+       healthcheck:
+         test: ["CMD", "curl", "-f", "127.0.0.1:8000"]
+         interval: 10s
+         timeout: 5s
+         retries: 5
+         start_period: 10s
        
    web1:
        image: sewer01/web1
        container_name: web1
        command: python manage.py runserver 0.0.0.0:8000
-       
+       healthcheck:
+         test: ["CMD", "curl", "-f", "127.0.0.1:8000"]
+         interval: 10s
+         timeout: 5s
+         retries: 5
+         start_period: 10s
    web2:
        image: sewer01/web2
        container_name: web2
        command: python manage.py runserver 0.0.0.0:8000
-                  
+       healthcheck:
+         test: ["CMD", "curl", "-f", "127.0.0.1:8000"]
+         interval: 10s
+         timeout: 5s
+         retries: 5
+         start_period: 10s           
    nginx:
       image: sewer01/nginx
       container_name: nginx
@@ -24,10 +40,13 @@ services:
         - log:/var/log/nginx      
       ports:
         - 80:80
-      links:
-        - web
-        - web1
-        - web2
+      depends_on:
+        web:
+          condition: service_healthy
+        web1:
+          condition: service_healthy
+        web2:
+          condition: service_healthy
 volumes:
   site:
   cert:
