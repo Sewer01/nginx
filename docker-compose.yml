@@ -19,12 +19,16 @@ services:
       image: sewer01/nginx
       container_name: nginx
       volumes:
-        - /etc/nginx/sites-enabled
-        - /etc/nginx/certs
-        - /var/log/nginx      
+        - site:/etc/nginx/sites-enabled
+        - cert:/etc/nginx/certs
+        - log:/var/log/nginx      
       ports:
         - 80:80
       links:
         - web
         - web1
         - web2
+volumes:
+  site:
+  cert:
+  log:
